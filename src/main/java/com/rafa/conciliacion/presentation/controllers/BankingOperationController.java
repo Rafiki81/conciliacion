@@ -23,8 +23,16 @@ public class BankingOperationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BankingOperation>> listBankingOperations(){
-        return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
+    public ResponseEntity<List<BankingOperation>> listBankingOperations(@RequestParam(name = "isReconciliated", required = false) boolean isReconciliated){
+
+        if(isReconciliated){
+            return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
+        }else if(!isReconciliated){
+            return new ResponseEntity<>(bankingOperationService.getNonReconciliated(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
+        }
+
     }
 
     @PostMapping("/reconciliations")
@@ -33,14 +41,5 @@ public class BankingOperationController {
         return new ResponseEntity<>(bankingOperationService.reconciliateBankingOperations(bankingOperations), HttpStatus.OK);
     }
 
-    @GetMapping("/reconciliations/reconciliated")
-    public ResponseEntity<List<BankingOperation>> listReconciliated(){
-        return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
-    }
-
-    @GetMapping("/reconciliations/nonReconciliated")
-    public ResponseEntity<List<BankingOperation>> listNonReconciliated(){
-        return new ResponseEntity<>(bankingOperationService.getNonReconciliated(), HttpStatus.OK);
-    }
 
 }
