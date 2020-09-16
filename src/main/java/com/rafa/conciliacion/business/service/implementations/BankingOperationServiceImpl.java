@@ -11,12 +11,34 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *  This is the Service for BankingOperations Microservice.
+ *
+ *  Support all the business logic and manages the requests from the controller to our repository.
+ *
+ *  Has five methods:
+ *
+ *  createBankingOperations, creates BankingOperations by giving an list of BankingOperations.
+ *  listBankingOperations, retrieves form de repository the list of all BankingOperations.
+ *  reconciliateBankingOperations, by giving a list of BankingOperations operate the reconciliation and reconciliates this BankingOperations.
+ *  getReconciliated, retrieves form de repository the list of the reconciliated BankingOperations.
+ *  getNonReconciliated, retrieves form de repository the list of non reconciliated BankingOperations.
+ *
+ *  @author rperez-beato@viewnext.com
+ */
 @Service
 public class BankingOperationServiceImpl implements BankingOperationService {
 
     @Autowired
     private BankingOperationRepository bankingOperationRepository;
 
+
+    /**
+     * Creates BankingOperations on the repository by recieving a list of BankingOperations.
+     *
+     * @param bankingOperations List of BankingOperations
+     * @return bankingOperations, a list of BankingOperations that has been saved on the repository.
+     */
     @Override
     public List<BankingOperation> createBankingOperations(List<BankingOperation> bankingOperations) {
 
@@ -25,11 +47,28 @@ public class BankingOperationServiceImpl implements BankingOperationService {
 
     }
 
+    /**
+     * Retrieves form de repository the list of all BankingOperations.
+     *
+     * @return bankingOperations, a list of all the BankingOperations saved on the repository
+     */
     @Override
     public List<BankingOperation> listBankingOperations() {
+
         return bankingOperationRepository.findAll();
     }
 
+    /**
+     * By giving a list of BankingOperations operate the reconciliation and reconciliates this BankingOperations.
+     * In this method, you can reconciliate a list of BankingOperations.
+     *
+     * A BankingOperation is reconciliated if has the same customerId, is done with the same amount (+-0.2) or is done at the same
+     * time plus or minus an hour.
+     *
+     *
+     * @param bankingOperations
+     * @return nonReconciliated List of reconciliated BankingOperations
+     */
     @Override
     public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations) {
 
@@ -46,19 +85,29 @@ public class BankingOperationServiceImpl implements BankingOperationService {
                 .collect(Collectors.toList());
 
 
-        nonReconciliated.stream().forEach(p -> p.setReconciliated(true));
+        nonReconciliated.forEach(p -> p.setReconciliated(true));
         bankingOperationRepository.saveAll(nonReconciliated);
         return nonReconciliated;
 
     }
 
+    /**
+     * Retrieves form de repository the list of all the reconciliated BankingOperations.
+     *
+     * @return A list of the reconciliated BankingOperations saved on the repository.
+     */
     @Override
     public List<BankingOperation> getReconciliated() {
         return bankingOperationRepository.findAll().stream()
-                .filter(p -> p.isReconciliated())
+                .filter(BankingOperation::isReconciliated)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves form de repository the list of all the non reconciliated BankingOperations.
+     *
+     * @return A list of the non reconciliated BankingOperations saved on the repository.
+     */
     @Override
     public List<BankingOperation> getNonReconciliated() {
         return bankingOperationRepository.findAll().stream()
