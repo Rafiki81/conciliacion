@@ -37,16 +37,14 @@ public class BankingOperationServiceImpl implements BankingOperationService {
                 .filter(bankingOperation -> !bankingOperation.isReconciliated())
                 .filter(bankingOperation -> bankingOperations.stream()
                         .anyMatch(bankingOperationRecieved ->
-                                bankingOperationRecieved.getCustomerId().equals(bankingOperation.getCustomerId())))
-                .filter(bankingOperation -> bankingOperations.stream()
-                        .anyMatch(bankingOperationRecieved ->
-                                bankingOperationRecieved.getAmount() >= bankingOperation.getAmount() - 0.2 ||
-                                        bankingOperationRecieved.getAmount() <= bankingOperation.getAmount() + 0.2)
-                ).filter(bankingOperation -> bankingOperations.stream()
-                        .anyMatch(bankingOperationRecieved ->
-                                bankingOperationRecieved.getDate().before(Date.from(bankingOperation.getDate().toInstant().plus(1, ChronoUnit.HOURS))) &&
-                                        bankingOperationRecieved.getDate().after(Date.from(bankingOperation.getDate().toInstant().minus(1, ChronoUnit.HOURS)))
-                        )).collect(Collectors.toList());
+                                (bankingOperationRecieved.getCustomerId().equals(bankingOperation.getCustomerId())) &&
+                                        ((bankingOperationRecieved.getAmount() >= bankingOperation.getAmount() - 0.2 &&
+                                                bankingOperationRecieved.getAmount() <= bankingOperation.getAmount() + 0.2)||
+                                                (bankingOperationRecieved.getDate().before(Date.from(bankingOperation.getDate().toInstant().plus(1, ChronoUnit.HOURS))) &&
+                                                bankingOperationRecieved.getDate().after(Date.from(bankingOperation.getDate().toInstant().minus(1, ChronoUnit.HOURS)))
+                        ))))
+                .collect(Collectors.toList());
+
 
         nonReconciliated.stream().forEach(p -> p.setReconciliated(true));
         bankingOperationRepository.saveAll(nonReconciliated);
