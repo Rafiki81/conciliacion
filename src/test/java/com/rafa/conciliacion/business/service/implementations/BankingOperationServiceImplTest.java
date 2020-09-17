@@ -37,7 +37,7 @@ class BankingOperationServiceImplTest {
         List<BankingOperation> savedBankingOperationList = bankingOperationService.createBankingOperations(bankingOperationList);
         verify(bankingOperationRepository).saveAll(bankingOperationList);
 
-        assertThat(bankingOperationList).isNotNull();
+        assertThat(savedBankingOperationList).isNotNull();
 
     }
 
