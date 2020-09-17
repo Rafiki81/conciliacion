@@ -20,7 +20,7 @@ import java.util.List;
  * listBankingOperations retrieves form de repository the list of Banking Oerations, can filter for the reconciliated and the nonreconciliated.
  * reconciliation, by giving a list of Banking Operations operate the reconciliation and reconciliates this Banking Operations
  *
- * @author rperez -beato@viewnext.com
+ * @author rperez-beato@viewnext.com
  */
 @RestController
 @RequestMapping("/bankingOperations")
@@ -34,7 +34,7 @@ public class BankingOperationController {
      * Method that creates banking operations by passing a list of banking operations.
      *
      * @param bankingOperations List of Banking Operations
-     * @return List<BankingOperation>  Returns the list of Banking Operations saved on the repository with the generated id.
+     * @return Returns the list of Banking Operations saved on the repository with the generated id.
      */
     @PostMapping
     @ApiOperation(value = "Creates Banking Operations from a List of Banking Operations")
@@ -48,7 +48,7 @@ public class BankingOperationController {
      * Method that lists banking operations, can filter the reconciliated or nonreconciliated ones.
      *
      * @param isReconciliated Not required. QueryParam for filtering the reconciliated or nonreconciliated operations
-     * @return List<BankingOperation>  Returns the list of Banking Operations saved on the repository
+     * @return Returns the list of Banking Operations saved on the repository
      */
     @GetMapping
     @ApiOperation(value = "Retrieves Banking Operations from the repository")
@@ -72,7 +72,7 @@ public class BankingOperationController {
      * @param bankingOperations List of banking operations to be reconciliated
      * @param amountRange Amount Range in which the BankingOperations are reconciliated.
      * @param hoursRange Hours Range in which the BankingOperations are reconciliated.
-     * @return List<BankingOperation>  Returns the list of Banking Operations that has been reconciliated
+     * @return Returns the list of Banking Operations that has been reconciliated
      */
     @PostMapping("/reconciliations")
     @ApiOperation(value = "Do the Reconciliate operation to a List of Banking Operations")

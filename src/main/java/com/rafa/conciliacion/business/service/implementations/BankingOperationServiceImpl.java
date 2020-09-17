@@ -62,7 +62,9 @@ public class BankingOperationServiceImpl implements BankingOperationService {
      * By giving a list of BankingOperations operate the reconciliation and reconciliates this BankingOperations.
      * In this method, you can reconciliate a list of BankingOperations.
      *
-     * @param bankingOperations
+     * @param bankingOperations List of BankingOperations
+     * @param hoursRange Range of time in hours to reconciliate
+     * @param amountRange Range of amount to reconciliate
      * @return nonReconciliated List of reconciliated BankingOperations
      */
     @Override
