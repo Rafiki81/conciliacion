@@ -62,28 +62,13 @@ public class BankingOperationServiceImpl implements BankingOperationService {
      * By giving a list of BankingOperations operate the reconciliation and reconciliates this BankingOperations.
      * In this method, you can reconciliate a list of BankingOperations.
      *
-     * A BankingOperation is reconciliated if has the same customerId, is done with the same amount (+-0.2) or is done at the same
-     * time plus or minus an hour.
-     *
-     *
      * @param bankingOperations
      * @return nonReconciliated List of reconciliated BankingOperations
      */
     @Override
     public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations) {
 
-        List<BankingOperation> nonReconciliated = bankingOperationRepository.findAll().stream()
-                .filter(bankingOperation -> !bankingOperation.isReconciliated())
-                .filter(bankingOperation -> bankingOperations.stream()
-                        .anyMatch(bankingOperationRecieved ->
-                                (bankingOperationRecieved.getCustomerId().equals(bankingOperation.getCustomerId())) &&
-                                        ((bankingOperationRecieved.getAmount() >= bankingOperation.getAmount() - 0.2 &&
-                                                bankingOperationRecieved.getAmount() <= bankingOperation.getAmount() + 0.2)||
-                                                (bankingOperationRecieved.getDate().before(Date.from(bankingOperation.getDate().toInstant().plus(1, ChronoUnit.HOURS))) &&
-                                                bankingOperationRecieved.getDate().after(Date.from(bankingOperation.getDate().toInstant().minus(1, ChronoUnit.HOURS)))
-                        ))))
-                .collect(Collectors.toList());
-
+        List<BankingOperation> nonReconciliated = MatchBankingOperationsByAmountAndDate(bankingOperations,0.2,1);
 
         nonReconciliated.forEach(p -> p.setReconciliated(true));
         bankingOperationRepository.saveAll(nonReconciliated);
@@ -113,5 +98,29 @@ public class BankingOperationServiceImpl implements BankingOperationService {
         return bankingOperationRepository.findAll().stream()
                 .filter(p -> !p.isReconciliated())
                 .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Method that matches BankingOperations with the saved at the repository
+     *
+     * @param bankingOperations List of BankingOperations to Reconciliate
+     * @param amountRange Maximun and minimun for the Amount range to di the Match.
+     * @param hoursRange MAximun and Minimun for the Time range to do the Match.
+     * @return A List of the Reconciliated BankingOperations
+     */
+    public List<BankingOperation> MatchBankingOperationsByAmountAndDate(List<BankingOperation> bankingOperations,double amountRange, int hoursRange) {
+        List<BankingOperation> nonReconciliated = bankingOperationRepository.findAll().stream()
+                .filter(bankingOperation -> !bankingOperation.isReconciliated())
+                .filter(bankingOperation -> bankingOperations.stream()
+                        .anyMatch(bankingOperationRecieved ->
+                                (bankingOperationRecieved.getCustomerId().equals(bankingOperation.getCustomerId())) &&
+                                        ((bankingOperationRecieved.getAmount() >= bankingOperation.getAmount() - amountRange &&
+                                                bankingOperationRecieved.getAmount() <= bankingOperation.getAmount() + amountRange)||
+                                                (bankingOperationRecieved.getDate().before(Date.from(bankingOperation.getDate().toInstant().plus(hoursRange, ChronoUnit.HOURS))) &&
+                                                        bankingOperationRecieved.getDate().after(Date.from(bankingOperation.getDate().toInstant().minus(hoursRange, ChronoUnit.HOURS)))
+                                                ))))
+                .collect(Collectors.toList());
+        return nonReconciliated;
     }
 }
