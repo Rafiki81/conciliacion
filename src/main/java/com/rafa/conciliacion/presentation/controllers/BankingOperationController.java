@@ -76,8 +76,12 @@ public class BankingOperationController {
     @ApiOperation(value = "Do the Reconciliate operation to a List of Banking Operations")
     @ApiResponse(code = 200, message = "The Operation has been resolved OK")
     public ResponseEntity<List<BankingOperation>> reconciliation(
-            @RequestBody List<BankingOperation> bankingOperations){
-        return new ResponseEntity<>(bankingOperationService.reconciliateBankingOperations(bankingOperations), HttpStatus.OK);
+            @RequestBody List<BankingOperation> bankingOperations,
+            @RequestParam double amountRange,
+            @RequestParam int hoursRange){
+
+        return new ResponseEntity<>(bankingOperationService.reconciliateBankingOperations(bankingOperations,amountRange,hoursRange), HttpStatus.OK);
+
     }
 
 

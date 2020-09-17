@@ -66,9 +66,9 @@ public class BankingOperationServiceImpl implements BankingOperationService {
      * @return nonReconciliated List of reconciliated BankingOperations
      */
     @Override
-    public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations) {
+    public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations, double amountRange, int hoursRange) {
 
-        List<BankingOperation> nonReconciliated = MatchBankingOperationsByAmountAndDate(bankingOperations,0.2,1);
+        List<BankingOperation> nonReconciliated = MatchBankingOperationsByAmountAndDate(bankingOperations,amountRange,hoursRange);
 
         nonReconciliated.forEach(p -> p.setReconciliated(true));
         bankingOperationRepository.saveAll(nonReconciliated);

@@ -10,7 +10,7 @@ public interface BankingOperationService {
 
     public List<BankingOperation> listBankingOperations();
 
-    public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations);
+    public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations, double amountRange, int hoursRange);
 
     public List<BankingOperation> getReconciliated();
 
