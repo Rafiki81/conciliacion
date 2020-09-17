@@ -70,6 +70,8 @@ public class BankingOperationController {
      * Method that reconciliates a list of Banking Operations.
      *
      * @param bankingOperations List of banking operations to be reconciliated
+     * @param amountRange Amount Range in which the BankingOperations are reconciliated.
+     * @param hoursRange Hours Range in which the BankingOperations are reconciliated.
      * @return List<BankingOperation>  Returns the list of Banking Operations that has been reconciliated
      */
     @PostMapping("/reconciliations")
