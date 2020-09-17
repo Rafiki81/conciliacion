@@ -16,9 +16,9 @@ import java.util.List;
  * This is the Controller for Banking Operations Microservice.
  *
  * Has three methods:
- * createBankingOperations for creating Banking Operations by giving an list of Banking Operations
- * listBankingOperations retrieves form de repository the list of Banking Oerations, can filter for the reconciliated and the nonreconciliated.
- * reconciliation, by giving a list of Banking Operations operate the reconciliation and reconciliates this Banking Operations
+ * createBankingOperations for creating Banking Operations by giving an list of Banking Operations,
+ * listBankingOperations retrieves form de repository the list of Banking Oerations, can filter for the reconciliated and the nonreconciliated,
+ * reconciliation, by giving a list of Banking Operations operate the reconciliation and reconciliates this Banking Operations,
  *
  * @author rperez-beato@viewnext.com
  */

@@ -3,7 +3,6 @@ package com.rafa.conciliacion.presentation.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rafa.conciliacion.business.model.BankingOperation;
 import com.rafa.conciliacion.business.service.BankingOperationService;
-import com.rafa.conciliacion.business.service.implementations.BankingOperationServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
