@@ -24,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/bankingOperations")
+@CrossOrigin
 @Api(value="Banking Operations")
 public class BankingOperationController {
 
