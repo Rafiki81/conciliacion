@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This is the Controller for Banking Operations Microservice.
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
  * @author rperez-beato@viewnext.com
  */
 @RestController
-@CrossOrigin
 @RequestMapping("/bankingOperations")
 @Api(value="Banking Operations")
 public class BankingOperationController {
@@ -56,12 +54,14 @@ public class BankingOperationController {
     @ApiOperation(value = "Retrieves Banking Operations from the repository")
     @ApiResponse(code = 200, message = "The Query has been resolved OK")
     public ResponseEntity<List<BankingOperation>> listBankingOperations(
-            @RequestParam(name = "isReconciliated", required = false ) boolean isReconciliated){
+            @RequestParam(name = "isReconciliated", required = false) boolean isReconciliated){
 
-       if(isReconciliated){
+        if(isReconciliated){
             return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
-        }else {
+        }else if(!isReconciliated){
             return new ResponseEntity<>(bankingOperationService.getNonReconciliated(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
         }
 
     }
