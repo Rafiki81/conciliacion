@@ -54,14 +54,14 @@ public class BankingOperationController {
     @ApiOperation(value = "Retrieves Banking Operations from the repository")
     @ApiResponse(code = 200, message = "The Query has been resolved OK")
     public ResponseEntity<List<BankingOperation>> listBankingOperations(
-            @RequestParam(name = "isReconciliated", required = false) boolean isReconciliated){
+            @RequestParam(value = "isReconciliated", required = false) Boolean isReconciliated){
 
-        if(isReconciliated){
-            return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
+        if(isReconciliated == null){
+            return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
         }else if(!isReconciliated){
             return new ResponseEntity<>(bankingOperationService.getNonReconciliated(), HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
+            return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
         }
 
     }
@@ -79,8 +79,16 @@ public class BankingOperationController {
     @ApiResponse(code = 200, message = "The Operation has been resolved OK")
     public ResponseEntity<List<BankingOperation>> reconciliation(
             @RequestBody List<BankingOperation> bankingOperations,
-            @RequestParam double amountRange,
-            @RequestParam int hoursRange){
+            @RequestParam (value = "amountRange" , required = false) Double amountRange,
+            @RequestParam (value = "hoursRange" , required = false) Integer hoursRange){
+
+        if(amountRange == null){
+            amountRange = 0.2;
+        }
+
+        if(hoursRange == null){
+            hoursRange = 1;
+        }
 
         return new ResponseEntity<>(bankingOperationService.reconciliateBankingOperations(bankingOperations,amountRange,hoursRange), HttpStatus.OK);
 
