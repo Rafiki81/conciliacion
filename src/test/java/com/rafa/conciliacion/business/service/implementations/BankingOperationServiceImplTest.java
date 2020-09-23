@@ -133,7 +133,7 @@ class BankingOperationServiceImplTest {
         bankingOperation.setReconciliated(false);
         bankingOperationList.add(bankingOperation);
 
-        Mockito.lenient().when(bankingOperationService.MatchBankingOperationsByAmountAndDate(bankingOperationListToReconciliate,0,1)).thenReturn(bankingOperationListToReconciliate);
+        Mockito.lenient().when(bankingOperationService.matchBankingOperationsByAmountAndDate(bankingOperationListToReconciliate,0,1)).thenReturn(bankingOperationListToReconciliate);
 
         assertThat(bankingOperationListToReconciliate).hasSize(1);
     }
