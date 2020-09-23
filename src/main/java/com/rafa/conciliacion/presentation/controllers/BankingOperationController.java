@@ -60,7 +60,7 @@ public class BankingOperationController {
         if(isReconciliated == null){
             return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
         }
-        if(isReconciliated){
+        if(Boolean.TRUE.equals(isReconciliated)){
             return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
         }
         else{
