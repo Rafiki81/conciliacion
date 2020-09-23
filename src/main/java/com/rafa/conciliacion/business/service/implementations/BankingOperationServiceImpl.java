@@ -112,7 +112,7 @@ public class BankingOperationServiceImpl implements BankingOperationService {
      * @return A List of the Reconciliated BankingOperations
      */
     public List<BankingOperation> MatchBankingOperationsByAmountAndDate(List<BankingOperation> bankingOperations,double amountRange, int hoursRange) {
-        List<BankingOperation> nonReconciliated = bankingOperationRepository.findAll().stream()
+        return bankingOperationRepository.findAll().stream()
                 .filter(bankingOperation -> !bankingOperation.isReconciliated())
                 .filter(bankingOperation -> bankingOperations.stream()
                         .anyMatch(bankingOperationRecieved ->
@@ -123,6 +123,5 @@ public class BankingOperationServiceImpl implements BankingOperationService {
                                                         bankingOperationRecieved.getDate().after(Date.from(bankingOperation.getDate().toInstant().minus(hoursRange, ChronoUnit.HOURS)))
                                                 ))))
                 .collect(Collectors.toList());
-        return nonReconciliated;
     }
 }
