@@ -70,7 +70,7 @@ public class BankingOperationServiceImpl implements BankingOperationService {
     @Override
     public List<BankingOperation> reconciliateBankingOperations(List<BankingOperation> bankingOperations, double amountRange, int hoursRange) {
 
-        List<BankingOperation> nonReconciliated = MatchBankingOperationsByAmountAndDate(bankingOperations,amountRange,hoursRange);
+        List<BankingOperation> nonReconciliated = matchBankingOperationsByAmountAndDate(bankingOperations,amountRange,hoursRange);
 
         nonReconciliated.forEach(p -> p.setReconciliated(true));
         bankingOperationRepository.saveAll(nonReconciliated);
@@ -111,7 +111,7 @@ public class BankingOperationServiceImpl implements BankingOperationService {
      * @param hoursRange MAximun and Minimun for the Time range to do the Match.
      * @return A List of the Reconciliated BankingOperations
      */
-    public List<BankingOperation> MatchBankingOperationsByAmountAndDate(List<BankingOperation> bankingOperations,double amountRange, int hoursRange) {
+    public List<BankingOperation> matchBankingOperationsByAmountAndDate(List<BankingOperation> bankingOperations,double amountRange, int hoursRange) {
         return bankingOperationRepository.findAll().stream()
                 .filter(bankingOperation -> !bankingOperation.isReconciliated())
                 .filter(bankingOperation -> bankingOperations.stream()
