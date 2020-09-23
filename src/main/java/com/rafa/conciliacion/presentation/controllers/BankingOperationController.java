@@ -17,7 +17,7 @@ import java.util.List;
  *
  * Has three methods:
  * createBankingOperations for creating Banking Operations by giving an list of Banking Operations,
- * listBankingOperations retrieves form de repository the list of Banking Oerations, can filter for the reconciliated and the nonreconciliated,
+ * listBankingOperations retrieves form de repository the list of Banking Operations, can filter for the reconciliated and the nonreconciliated,
  * reconciliation, by giving a list of Banking Operations operate the reconciliation and reconciliates this Banking Operations,
  *
  * @author rperez-beato@viewnext.com
@@ -59,10 +59,12 @@ public class BankingOperationController {
 
         if(isReconciliated == null){
             return new ResponseEntity<>(bankingOperationService.listBankingOperations(), HttpStatus.OK);
-        }else if(!isReconciliated){
-            return new ResponseEntity<>(bankingOperationService.getNonReconciliated(), HttpStatus.OK);
-        }else{
+        }
+        if(isReconciliated){
             return new ResponseEntity<>(bankingOperationService.getReconciliated(), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(bankingOperationService.getNonReconciliated(), HttpStatus.OK);
         }
 
     }
